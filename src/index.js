@@ -1,9 +1,12 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const mongoose = require('mongoose')
 //const {MongoClient, MongoKerberosError} = require("mongodb")
 //const uri = "mongodb+srv://miranteazi:emanuel12@cluster0.bf2jvxc.mongodb.net/?retryWrites=true&w=majority";
 //const client = new MongoClient(uri);
+
+app.use(cors())
 
 app.use(express.urlencoded({extended: true}))
 
@@ -84,7 +87,7 @@ mongoose.connect(
     'mongodb+srv://miranteazi:emanuel12@cluster0.bf2jvxc.mongodb.net/?retryWrites=true&w=majority',
   ).then (()=>{
     console.log('successully connected')
-    app.listen(3000)
+    app.listen(3003)
   }).catch((err)=> console.log(err))
 
 // async function run(){
