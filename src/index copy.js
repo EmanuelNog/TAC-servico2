@@ -15,34 +15,26 @@ const Measurement = require('./models/Measurement.js')
 
 //--------------
 app.post('/measurement', async (req, res) => {
-  const { name, measurements, deviceId, userId} = req.body
+  const { name, measurements, deviceId} = req.body
 
   const measurement = {
     name,
     measurements,
     deviceId,
-    userId,
   }
 
   try {
     await Measurement.create(measurement)
 
-    res.status(201).json({ message: 'Medida registrada com sucesso' })
+    res.status(201).json({ message: 'Measurement recorded successfully!' })
   } catch (error) {
     res.status(500).json({ error: error })
   }
 })
 
-app.get('/measurement/:id', async (req, res) => {
-  const id = req.params.id
-
+app.get('/measurement', async (req, res) => {
   try {
-    const measurement = await Measurement.findOne({ _id: id })
-
-    if (!measurement) {
-      res.status(422).json({ message: 'Medida nao encontrada' })
-      return
-    }
+    const measurement = await Measurement.find()
 
     res.status(200).json(measurement)
   } catch (error) {
@@ -50,57 +42,24 @@ app.get('/measurement/:id', async (req, res) => {
   }
 })
 
-app.get('/measurement/user/:userId', async (req, res) => {
-  const userId = req.params.userId
 
-  try {
-    const measurement = await Measurement.find({ userId: userId })
 
-    if (!measurement) {
-      res.status(422).json({ message: 'Medida nao encontrada' })
-      return
-    }
-
-    res.status(200).json(measurement)
-  } catch (error) {
-    res.status(500).json({ error: error })
-  }
-})
-
-app.delete('/measurement/:id', async (req, res) => {
-  const id = req.params.id
-
-  const measurement = await Measurement.findOne({ _id: id })
-
-  if (!measurement) {
-    res.status(422).json({ message: 'Medida nao encontrada' })
-    return
-  }
-
-  try {
-    await Measurement.deleteOne({ _id: id })
-
-    res.status(200).json({ message: 'Medida removida com sucesso' })
-  } catch (error) {
-    res.status(500).json({ error: error })
-  }
-})
 
 //--------------
 const Device = require('./models/Device.js')
 
 app.post('/device', async (req, res) => {
-  const { name, description} = req.body
+  const { name, measurements} = req.body
 
   const device = {
     name,
-    description,
+    measurements,
   }
 
   try {
     await Device.create(device)
 
-    res.status(201).json({ message: 'Dispositivo registrado com sucesso' })
+    res.status(201).json({ message: 'Device recorded successfully!' })
   } catch (error) {
     res.status(500).json({ error: error })
   }
@@ -124,7 +83,7 @@ app.get('/device/:id', async (req, res) => {
     const device = await Device.findOne({ _id: id })
 
     if (!device) {
-      res.status(422).json({ message: 'Dispositivo nao encontrado' })
+      res.status(422).json({ message: 'Device not found!' })
       return
     }
 
@@ -140,14 +99,14 @@ app.delete('/device/:id', async (req, res) => {
   const device = await Device.findOne({ _id: id })
 
   if (!device) {
-    res.status(422).json({ message: 'Dispositivo nao encontrado' })
+    res.status(422).json({ message: 'Device not found!' })
     return
   }
 
   try {
     await Device.deleteOne({ _id: id })
 
-    res.status(200).json({ message: 'Dispositivo removido com sucesso' })
+    res.status(200).json({ message: 'Device removed successfully!' })
   } catch (error) {
     res.status(500).json({ error: error })
   }
