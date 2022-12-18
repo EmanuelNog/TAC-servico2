@@ -4,6 +4,6 @@ COPY . .
 
 RUN npm install
 
-EXPOSE 8080
-CMD [ "node", "index.js" ]
+EXPOSE 3003
+CMD [ "node", "src/index.js" ]
 
